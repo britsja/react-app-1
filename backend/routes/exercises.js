@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Exercise = require('../models/exercise.model');
+let Exercise = require('../models/exercise.model');
 
 router.route('/').get((req, res) => {
     Exercise.find()
@@ -27,8 +27,9 @@ router.route('/add').post((req, res) => {
 
 router.route('/:id').get((req, res) => {
     Exercise.findById(req.params.id)
-    .then(exercise => req.json(exercise))
+    .then(exercise => res.json(exercise))
     .catch(err => res.status(400).json('Error: ' + err));
+    console.log("HERE: " + req.params.id);
 });
 
 router.route('/:id').delete((req, res) => {
