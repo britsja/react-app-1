@@ -60,19 +60,26 @@ export default class CreateExercise extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const exercise = {
-            username: this.state.username,
-            description: this.state.description,
-            duration: this.state.duration,
-            date: this.state.date
-        }
-        console.log(exercise);
-
-        axios.post('http://localhost:8000/exercises/add', exercise)
-            .then(res => console.log(res.data));
-
-        window.location = '/';
+        this.handlePostAndRedirect();
+        
     }
+
+    handlePostAndRedirect = async () => {
+        try {
+            const exercise = {
+                username: this.state.username,
+                description: this.state.description,
+                duration: this.state.duration,
+                date: this.state.date
+            }
+          const response = await axios.post('http://localhost:8000/exercises/add', exercise)
+          console.log(response.data);
+          // Redirect to the desired location
+          window.location.href = '/';
+        } catch (error) {
+          console.log("Error: " + error);
+        }
+      };
 
     render() {
         return (

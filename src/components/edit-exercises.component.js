@@ -77,23 +77,34 @@ export default class EditExercise extends Component {
     }
 
     onSubmit(e) {
-        e.preventDefault();
-        const exercise = {
-            username: this.state.username,
-            description: this.state.description,
-            duration: this.state.duration,
-            date: this.state.date
-        }
-        console.log(exercise);
+        e.preventDefault();        
 
-        var pathArray = window.location.pathname.split('/');
-        var secondLevelLocation = pathArray[2]; 
+        this.handlePostAndRedirect();
 
-        axios.post('http://localhost:8000/exercises/update/'+secondLevelLocation, exercise)
-            .then(res => console.log(res.data));
-
-        window.location = '/';
+        // window.location = '/';
     }
+
+    handlePostAndRedirect = async () => {
+        try {
+            const exercise = {
+                username: this.state.username,
+                description: this.state.description,
+                duration: this.state.duration,
+                date: this.state.date
+            }
+            console.log(exercise);
+    
+            var pathArray = window.location.pathname.split('/');
+            var secondLevelLocation = pathArray[2]; 
+
+          const response = await axios.post('http://localhost:8000/exercises/update/' + secondLevelLocation, exercise);
+          console.log(response.data);
+          // Redirect to the desired location
+          window.location.href = '/';
+        } catch (error) {
+          console.log('Error: ' + error);
+        }
+      };
 
     render() {
         return (
